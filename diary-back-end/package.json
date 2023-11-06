@@ -1,0 +1,27 @@
+{
+  "name": "diary-back-end",
+  "version": "1.0.0",
+  "main": "./dist/server.js",
+  "license": "GPL-3.0",
+
+  "scripts": {
+    "dev": "ts-node-dev --clear src/server.ts",
+    "startDev": "nodemon src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.8.10",
+    "nodemon": "^3.0.1",
+    "ts-node-dev": "^2.0.0",
+    "tsc": "^2.0.4",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
