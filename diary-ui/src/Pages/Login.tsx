@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React, {useState} from 'react'
+
+import { Button, Layout, Text } from '@ui-kitten/components';
 
 type Props = {}
 
@@ -22,10 +24,12 @@ const Login = (props: Props) => {
         }
     }
     return (
-        <View>
+        <Layout>
             <Text>{text}</Text>
-            <Button title="Go to Home" onPress={handlePress} />
-        </View>
+            <Button onPress={handlePress} >
+                LOGIN
+            </Button>
+        </Layout>
     )
 }
 

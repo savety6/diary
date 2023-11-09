@@ -1,17 +1,22 @@
 import { useMediaQuery } from "react-responsive";
 
 import React from 'react'
+
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
+import { default as theme } from '../../assets/custom-theme.json';
+
 import { Provider } from 'react-redux';
 import { store } from '../Context/store';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-import Home from '../Pages/Home'
 import Login from '../Pages/Login'
+import Home from '../Pages/Home'
+import Details from '../Pages/Details'
 
 const Stack = createNativeStackNavigator();
 
@@ -23,12 +28,15 @@ const index = () => {
 
     return (
         <Provider store={store}>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="Home" component={Home} />
-                </Stack.Navigator>
-            </NavigationContainer>
+            <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
+                <NavigationContainer>
+                    <Stack.Navigator>
+                        <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
+                        <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+                        <Stack.Screen name="Details" component={Details} options={{headerShown: false}} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </ApplicationProvider>
         </Provider>
     )
 }
