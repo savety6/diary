@@ -31,8 +31,8 @@ const index = () => {
             <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
                 <NavigationContainer>
                     <Stack.Navigator>
-                        <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
                         <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+                        <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
                         <Stack.Screen name="Details" component={Details} options={{headerShown: false}} />
                     </Stack.Navigator>
                 </NavigationContainer>
