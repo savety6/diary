@@ -14,7 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-import Login from '../Pages/Login'
+import Authenticate from '../Pages/Authenticate'
 import Home from '../Pages/Home'
 import Details from '../Pages/Details'
 
@@ -31,7 +31,7 @@ const index = () => {
             <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
                 <NavigationContainer>
                     <Stack.Navigator>
-                        <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+                        <Stack.Screen name="Authenticate" component={Authenticate} options={{headerShown: false}} />
                         <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
                         <Stack.Screen name="Details" component={Details} options={{headerShown: false}} />
                     </Stack.Navigator>

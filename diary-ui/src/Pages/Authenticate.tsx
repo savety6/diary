@@ -10,27 +10,9 @@ type Props = {
     navigation: NavigationProp<any>
 }
 
-const Login = (props: Props) => {
-    const [text, setText] = useState(null)
-    const [isRegistered, setIsRegistered] = useState<boolean>(false)
-
-    const handlePress = async () => {
-        //Authentication
-        try {
-            const response = await fetch('http://localhost:3001/', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            const data = await response.text()
-            console.log(response)
-            setText(data)
-        } catch (error) {
-            console.warn(error);
-
-        }
-    }
+const Authenticate = (props: Props) => {
+    const [isRegistered, setIsRegistered] = useState<boolean>(true)
+    
     return (
         <ImageBackground source={
             require('../../assets/BackgroundImage.jpg')
@@ -45,7 +27,7 @@ const Login = (props: Props) => {
     )
 }
 
-export default Login
+export default Authenticate
 
 const styles = StyleSheet.create({
     container: {
