@@ -1,13 +1,28 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+import Auth from './Routes/Auth';
+
+dotenv.config();
+
+const PORT = 3001;
 
 const app = express();
 
+mongoose.connect(process.env.DATABASE_URL!);
+const db = mongoose.connection;
+
+
+db.on('error', (error)=> console.log(error));
+db.once('open', () => { console.log('connected to db')});
+
 app.use(cors());
 app.use(bodyParser.json());
-
-const PORT = 3001;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/Auth', Auth);
 
 app.get('/', (_req, res) => {
     console.log('someone pinged here');
@@ -15,5 +30,5 @@ app.get('/', (_req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on http:/localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}/`);
 });
