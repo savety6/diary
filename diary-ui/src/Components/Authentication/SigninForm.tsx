@@ -1,12 +1,12 @@
 import React, { useRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
-import { Button, Card, Text, useTheme } from '@ui-kitten/components';
-import { Entypo, FontAwesome } from '@expo/vector-icons';
-import { useMediaQuery } from 'react-responsive';
+import { Button, Text } from '@ui-kitten/components';
 import { NavigationProp } from '@react-navigation/native';
 
-import TextInput from '../TextInput';
+import TextInput from '../Form/TextInput';
+import Container from '../Form/Container';
+import OtherOptions from '../Form/OtherOptions';
 
 type Props = {
     navigation: NavigationProp<any>
@@ -14,11 +14,6 @@ type Props = {
 }
 
 const SigninForm = ({ navigation, setIsRegistered }: Props) => {
-    const isTabletOrMobileDevice: boolean = useMediaQuery({
-        maxDeviceWidth: 1224,
-        query: "(max-device-width: 1224px)"
-    });
-    const theme = useTheme()
 
     const TextInputUserRef = useRef<any>(null);
     const TextInputEmailRef = useRef<any>(null);
@@ -39,14 +34,6 @@ const SigninForm = ({ navigation, setIsRegistered }: Props) => {
         navigation.navigate("Home")
     }
 
-    const Container = ({ children }): React.ReactElement => {
-        return isTabletOrMobileDevice ? (
-            <View>{children}</View>
-        ) : (
-            <Card disabled={true}>{children}</Card>
-        );
-    };
-
     return (
         <Container>
             <Text category="h1" style={styles.title}>Nice to meat you!</Text>
@@ -62,17 +49,7 @@ const SigninForm = ({ navigation, setIsRegistered }: Props) => {
             </Button>
 
             <Text category='p2' style={styles.textAlignment} >Or Sign In using Social Media</Text>
-            <View style={styles.row}>
-                <TouchableOpacity onPress={() => alert("Too bad for you :( didn't implement this feature yet!")}>
-                    <FontAwesome name="google" size={24} color={theme['text-basic-color']} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => alert("Too bad for you :( didn't implement this feature yet!")}>
-                    <FontAwesome name="facebook" size={24} color={theme['text-basic-color']} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => alert("Too bad for you :( didn't implement this feature yet!")}>
-                    <Entypo name="twitter" size={24} color={theme['text-basic-color']} />
-                </TouchableOpacity>
-            </View>
+            <OtherOptions/>
 
             <TouchableOpacity onPress={() => setIsRegistered(p => !p)}  >
                 <Text category='p2' style={styles.textAlignment} >Don't have an account? Sign Up</Text>
@@ -94,13 +71,6 @@ const styles = StyleSheet.create({
         fontWeight: '100',
         letterSpacing: 1,
         marginVertical: 16,
-    },
-    row: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        marginVertical: 20,
     },
     textAlignment: {
         textAlign: 'center',
