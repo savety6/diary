@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import Auth from './Routes/Auth';
+import Auth from './Routes/AuthRouter';
+import User from './Routes/UserRouter';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/Auth', Auth);
+app.use('/User', User);
 
 app.get('/', (_req, res) => {
     console.log('someone pinged here');

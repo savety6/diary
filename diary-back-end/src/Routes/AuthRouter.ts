@@ -1,6 +1,6 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import User from "../Models/User";
+import User from "../Models/UserSchema";
 import {MongoError} from "mongodb";
 
 const router = Router();
