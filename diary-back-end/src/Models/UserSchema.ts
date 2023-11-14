@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import  bcrypt from 'bcrypt';
+
 const UserSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -26,10 +27,8 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', async function(next){
-    // Only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) return next();
 
-    // Generate a salt and hash the password
     const salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
     this.password = await bcrypt.hash(this.password, salt);
 

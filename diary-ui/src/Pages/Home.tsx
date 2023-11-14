@@ -28,9 +28,7 @@ const Home = ({ navigation }) => {
                 return await token
             }
         }
-        const token = getToken().then()
-        console.log(token)
-        
+        const token = getToken()
         
     }, [])
 

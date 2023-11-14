@@ -62,14 +62,6 @@ const LoginForm = ({ navigation, setIsRegistered }: Props) => {
         }
     }, [value])
 
-    useUpdateEffect(() => {
-        console.error(error.message);
-    }, [error])
-
-    useUpdateEffect(() => {
-        console.log(loading);
-    }, [loading])
-
     return (
         <Container isLoading={loading}>
             <Text category="h1" style={styles.title}>Hello</Text>

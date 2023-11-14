@@ -13,4 +13,13 @@ const storeTokenToLocalStorage = async (value) => {
     }
 };
 
-export { isEmail, storeTokenToLocalStorage };
+const getTokenFromLocalStorage = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('JWT-user');
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export { isEmail, storeTokenToLocalStorage, getTokenFromLocalStorage };
