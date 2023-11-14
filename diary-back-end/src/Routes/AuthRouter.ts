@@ -1,13 +1,13 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import User from "../Models/UserSchema";
-import {MongoError} from "mongodb";
+import { MongoError } from "mongodb";
 
 const router = Router();
 
 const generateToken = (user) => {
     return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '24h', // Token expiration time
+        expiresIn: '30m', // Token expiration time
     });
 };
 
@@ -32,7 +32,7 @@ router.post("/login", async (req, res) => {
         }
 
         const token = generateToken(user);
-        res.send(token);
+        res.status(200).json({ token });
     } catch (error) {
         if (error instanceof MongoError) {
             res.status(400).json({ error: error.message });
@@ -54,20 +54,20 @@ router.post("/register", async (req, res) => {
         });
         await user.save();
         const token = generateToken(user);
-        res.send(token);
+        res.status(200).json({ token: token });
     }
-        catch (error) {
-            if(error instanceof MongoError){
-                if (error.code === 11000) { //TODO: check for other known errors
-                    res.status(400).json({ error: "User already exists" });
-                } else {
-                    res.status(400).json({ error: error.message });
-                }
-            }
-            else{
-                res.status(400).json({ error: error });
+    catch (error) {
+        if (error instanceof MongoError) {
+            if (error.code === 11000) { //TODO: check for other known errors
+                res.status(400).json({ error: "User already exists" });
+            } else {
+                res.status(400).json({ error: error.message });
             }
         }
+        else {
+            res.status(400).json({ error: error });
+        }
+    }
 });
 
 export default router;

@@ -11,14 +11,18 @@ export default function useAsync<T>(callback: () => Promise<T>, dependencies: an
     const [error, setError] = useState<Error>()
     const [value, setValue] = useState<T>()
 
-    const callbackMemoized = useCallback(() => {
+    const callbackMemoized = useCallback(async () => {
         setLoading(true)
         setError(undefined)
         setValue(undefined)
-        callback()
-            .then(setValue)
-            .catch(setError)
-            .finally(() => setLoading(false))
+        try {
+            const result = await callback()
+            setValue(result)
+        } catch (e) {
+            setError(new Error(e.error))
+        } finally {
+            setLoading(false)
+        }
     }, dependencies)
 
     useEffect(() => {

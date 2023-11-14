@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { Input, useTheme } from '@ui-kitten/components';
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { Input, Text, useTheme } from '@ui-kitten/components';
 import { Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import React, { useState, forwardRef, useRef, useImperativeHandle, lazy } from 'react'
 
@@ -65,7 +65,7 @@ const TextInput = ({ placeholder, label, isSecure }: Props, ref) => {
         return (
             <View style={styles.captionContainer}>
                 {AlertIcon(styles.captionIcon)}
-                <Text style={styles.captionText}>
+                <Text status="danger" style={styles.captionText}>
                     {Error}
                 </Text>
             </View>
@@ -101,6 +101,5 @@ const styles = StyleSheet.create({
     captionText: {
         fontSize: 12,
         fontWeight: '400',
-        color: 'red',
     },
 })
