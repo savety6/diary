@@ -90,7 +90,7 @@ export default function TopNav (): React.ReactElement {
         >
             <TopNavigation
                 alignment='start'
-                title={evaProps => <Text {...evaProps} category='h1' style={{marginHorizontal: 20}} >Diary</Text>}
+                title={evaProps => <Text {...evaProps} category='h1' style={{marginHorizontal: 20, fontWeight: "100"}} >My Diary</Text>}
                 // accessoryRight={renderRightActions}
             />
             <Divider />

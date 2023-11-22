@@ -4,6 +4,9 @@ import { Button, Card, Text, Modal} from '@ui-kitten/components'
 
 import TextInput from './TextInput'
 
+import markdownToHtml from '../../Util/markdownToHtml'
+import TextEditor from './TextEditor'
+
 type Props = {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,7 +16,7 @@ const MemoryCreationModal = ({ visible, setVisible }: Props) => {
     const TextInputRef = useRef<any>(null);
 
     const handleAccept =  () => {
-        console.log(TextInputRef.current?.getValue());
+        // console.log(markdownToHtml(TextInputRef.current?.getValue()));
         TextInputRef.current?.clear()
         setVisible(false)
     }
@@ -70,7 +73,8 @@ const MemoryCreationModal = ({ visible, setVisible }: Props) => {
                 header={Header}
                 footer={Footer}
             >
-                <TextInput ref={TextInputRef}/>
+                <TextEditor />
+                {/* <TextInput ref={TextInputRef}/> */}
             </Card>
         </Modal>
     )
