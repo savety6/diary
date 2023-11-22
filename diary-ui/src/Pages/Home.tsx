@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Divider, Layout, TopNavigation, Text } from '@ui-kitten/components';
 
 import TopNav from '../Components/TopNav';
+import NewMemory from '../Components/NewMemory';
 
 const GetTokenFromLocalStorage = async () => {
     try {
@@ -33,6 +34,7 @@ const Home = ({ navigation }) => {
         const token = getToken()
         
     }, [])
+    //New memory 
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -41,6 +43,7 @@ const Home = ({ navigation }) => {
             <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Button onPress={navigateDetails}>OPEN DETAILS</Button>
             </Layout>
+            <NewMemory/>
         </SafeAreaView>
     );
 };

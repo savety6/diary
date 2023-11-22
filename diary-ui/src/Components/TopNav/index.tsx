@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     IconElement,
+    Text,
     Layout,
     MenuItem,
     OverflowMenu,
@@ -9,7 +10,6 @@ import {
     Divider,
 } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
-import { TouchableWebElement } from '@ui-kitten/components/devsupport';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -63,29 +63,25 @@ export default function TopNav (): React.ReactElement {
         />
     );
 
-    const renderRightActions = (): React.ReactElement => (
-        <>
-            <TopNavigationAction icon={EditIcon} />
-            <OverflowMenu
-                anchor={renderMenuAction}
-                visible={menuVisible}
-                onBackdropPress={toggleMenu}
-            >
-                <MenuItem
-                    accessoryLeft={InfoIcon}
-                    title='About'
-                />
-                <MenuItem
-                    accessoryLeft={LogoutIcon}
-                    title='Logout'
-                />
-            </OverflowMenu>
-        </>
-    );
-
-    const renderBackAction = (): TouchableWebElement => (
-        <TopNavigationAction icon={BackIcon} />
-    );
+    // const renderRightActions = (): React.ReactElement => (
+    //     <>
+    //         <TopNavigationAction icon={EditIcon} />
+    //         <OverflowMenu
+    //             anchor={renderMenuAction}
+    //             visible={menuVisible}
+    //             onBackdropPress={toggleMenu}
+    //         >
+    //             <MenuItem
+    //                 accessoryLeft={InfoIcon}
+    //                 title='About'
+    //             />
+    //             <MenuItem
+    //                 accessoryLeft={LogoutIcon}
+    //                 title='Logout'
+    //             />
+    //         </OverflowMenu>
+    //     </>
+    // );
 
     return (
         <Layout
@@ -94,9 +90,8 @@ export default function TopNav (): React.ReactElement {
         >
             <TopNavigation
                 alignment='start'
-                title='diaryApp'
-                accessoryLeft={renderBackAction}
-                accessoryRight={renderRightActions}
+                title={evaProps => <Text {...evaProps} category='h1' style={{marginHorizontal: 20}} >Diary</Text>}
+                // accessoryRight={renderRightActions}
             />
             <Divider />
         </Layout>
