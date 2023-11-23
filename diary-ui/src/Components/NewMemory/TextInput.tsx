@@ -1,21 +1,30 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, {useState, forwardRef, useRef, useImperativeHandle } from 'react'
 import { Input } from '@ui-kitten/components'
+import useDebounce from '../../Hooks/useDebounce'
 
 import useInputState from '../../Hooks/useInputState'
+import markdownToHtml from '../../Util/markdownToHtml'
 
-type Props = {}
+type Props = {
+    setHtml: React.Dispatch<React.SetStateAction<string | null>>
+}
 
-const TextInput = (props: Props, ref) => {
+const TextInput = ({setHtml}: Props, ref) => {
     const {value, onChangeText} = useInputState();
 
     const valueRef = useRef('');
     valueRef.current = value;
 
+    useDebounce(() => {
+        const parsedHtml = markdownToHtml(value)
+        setHtml(parsedHtml)
+    }, 500, [value])
+
     useImperativeHandle(ref, () => ({
         getValue: () => valueRef.current,
+        setValue: (value: string) => onChangeText(value),
         clear: () => onChangeText('')
-        
     }));
 
     return (

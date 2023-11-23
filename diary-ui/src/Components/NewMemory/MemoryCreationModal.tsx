@@ -1,5 +1,5 @@
-import { StyleSheet, View, ViewProps } from 'react-native'
-import React, {useRef} from 'react'
+import { StyleSheet, View, ViewProps,  } from 'react-native'
+import React, {useRef, useState} from 'react'
 import { Button, Card, Text, Modal} from '@ui-kitten/components'
 
 import TextInput from './TextInput'
@@ -13,16 +13,12 @@ type Props = {
 }
 
 const MemoryCreationModal = ({ visible, setVisible }: Props) => {
-    const TextInputRef = useRef<any>(null);
 
     const handleAccept =  () => {
-        // console.log(markdownToHtml(TextInputRef.current?.getValue()));
-        TextInputRef.current?.clear()
         setVisible(false)
     }
 
     const handleCancel = () => {
-        TextInputRef.current?.clear()
         setVisible(false)
     }
 
@@ -74,7 +70,6 @@ const MemoryCreationModal = ({ visible, setVisible }: Props) => {
                 footer={Footer}
             >
                 <TextEditor />
-                {/* <TextInput ref={TextInputRef}/> */}
             </Card>
         </Modal>
     )
