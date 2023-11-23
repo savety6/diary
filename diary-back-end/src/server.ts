@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 
 import Auth from './Routes/AuthRouter';
 import User from './Routes/UserRouter';
+import Memory from './Routes/MemoryRouter';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/Auth', Auth);
 app.use('/User', User);
+app.use('/Memory', Memory);
 
 app.get('/', (_req, res) => {
     console.log('someone pinged here');
