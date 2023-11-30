@@ -1,26 +1,26 @@
 import { StyleSheet, Platform, } from 'react-native'
 import TextInput from './TextInput'
-import React, { useRef, useState } from 'react'
+import React, {useState, forwardRef, useRef, useImperativeHandle } from 'react'
 import { Layout, Toggle } from '@ui-kitten/components'
 import { WebView } from 'react-native-webview';
 
 type Props = {}
 
-const TextEditor = (props: Props) => {
+const TextEditor = (props: Props, ref) => {
     const TextInputRef = useRef<any>(null);
 
     const [checked, setChecked] = useState(false);
-    const [storeValue, setStoreValue] = useState('');
 
     const [html, setHtml] = useState<string | null>(null)
 
-    const onCheckedChange = (isChecked): void => {
-        // if (isChecked) {
-        //     setStoreValue(TextInputRef.current?.getValue());
-        // }else{
-        //     TextInputRef.current?.setValue("gei");
-        // }
+    const valueRef = useRef('');
+    valueRef.current = html;
 
+    useImperativeHandle(ref, () => ({
+        getValue: () => valueRef.current,
+    }));
+
+    const onCheckedChange = (isChecked): void => {
         setChecked(isChecked);
     };
 
@@ -53,6 +53,6 @@ const TextEditor = (props: Props) => {
     )
 }
 
-export default TextEditor
+export default forwardRef(TextEditor)
 
 const styles = StyleSheet.create({})

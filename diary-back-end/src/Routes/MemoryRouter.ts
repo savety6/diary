@@ -1,4 +1,6 @@
-import { Router } from 'express';
+import e, { Router } from 'express';
+import xml2js from 'xml2js';
+
 import Memory from '../Models/MemorySchema';
 
 import protect from '../Utility/protectMiddleware';
@@ -28,8 +30,20 @@ router.get('/:id', protect, async (req, res) => {
 // POST new memory
 router.post('/', protect, async (req, res) => {
     try {
-        const memory = await Memory.create(req.body);
-        res.status(201).json(memory);
+        console.log(req.body);
+
+        let xml;
+        xml2js.parseString(req.body.content, (err, result) => {
+            if(err) {
+                console.error(err.message);
+            }
+            console.log(result);
+            xml = result;
+        });
+        
+        console.log(xml);
+        // const memory = await Memory.create(req.body);
+        res.status(201).json({ memory: "ok" });
     } catch (error) {
         res.status(500).json({ error: error });
     }

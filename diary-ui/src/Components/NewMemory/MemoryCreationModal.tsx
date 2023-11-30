@@ -1,26 +1,67 @@
 import { StyleSheet, View, ViewProps,  } from 'react-native'
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { Button, Card, Text, Modal} from '@ui-kitten/components'
 
-import TextInput from './TextInput'
-
-import markdownToHtml from '../../Util/markdownToHtml'
 import TextEditor from './TextEditor'
+import { getTokenFromLocalStorage } from '../../Util'
 
 type Props = {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+type Token = {
+    token: string
+}
+
 const MemoryCreationModal = ({ visible, setVisible }: Props) => {
+    const [token, setToken] = useState<Token>({ token: '' })
+
+    const TextEditorRef = useRef<any>(null);
+
+    const checkToken = async () => {
+        try {
+            const localToken = await getTokenFromLocalStorage()
+            if (localToken != null) {
+                setToken(localToken)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const makeNewMemory = async ( content: string ) => {
+        try {
+            const response = await fetch("http://localhost:3001/Memory/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token.token}`
+                },
+                body: JSON.stringify({
+                    content: content
+                })
+            })
+            const data = await response.json()
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const handleAccept =  () => {
+        const html = TextEditorRef.current.getValue()
+        makeNewMemory(html)
         setVisible(false)
     }
 
     const handleCancel = () => {
         setVisible(false)
     }
+
+    useEffect(() => {
+        checkToken()
+    }, [])
 
     const Header = (props: ViewProps): React.ReactElement => (
         <View {...props}>
@@ -69,7 +110,7 @@ const MemoryCreationModal = ({ visible, setVisible }: Props) => {
                 header={Header}
                 footer={Footer}
             >
-                <TextEditor />
+                <TextEditor ref={TextEditorRef}/>
             </Card>
         </Modal>
     )
