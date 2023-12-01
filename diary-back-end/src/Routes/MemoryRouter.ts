@@ -1,5 +1,5 @@
-import e, { Router } from 'express';
-import xml2js from 'xml2js';
+import { Router } from 'express';
+import MemoryParser from '../Utility/SaxParser';
 
 import Memory from '../Models/MemorySchema';
 
@@ -30,19 +30,17 @@ router.get('/:id', protect, async (req, res) => {
 // POST new memory
 router.post('/', protect, async (req, res) => {
     try {
-        console.log(req.body);
-
-        let xml;
-        xml2js.parseString(req.body.content, (err, result) => {
-            if(err) {
-                console.error(err.message);
-            }
-            console.log(result);
-            xml = result;
+        const parser = new MemoryParser();
+        const parsedMemory = parser.parseXML(req.body.content);
+        console.log(parsedMemory);
+        const memory = await Memory.create({
+            title: parsedMemory.title,
+            subtitle: parsedMemory.subtitle,
+            content: req.body.content,
+            tags: [],
+            date: parsedMemory.date,
         });
-        
-        console.log(xml);
-        // const memory = await Memory.create(req.body);
+        await memory.save();
         res.status(201).json({ memory: "ok" });
     } catch (error) {
         res.status(500).json({ error: error });

@@ -39,7 +39,7 @@ const MemoryCreationModal = ({ visible, setVisible }: Props) => {
                     'Authorization': `Bearer ${token.token}`
                 },
                 body: JSON.stringify({
-                    content: content
+                    content: `<body>${content}</body>`
                 })
             })
             const data = await response.json()

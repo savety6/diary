@@ -7,6 +7,12 @@ const MemorySchema = new mongoose.Schema({
         min:5,
         max:255,
     },
+    subtitle:{
+        type:String,
+        required:false,
+        min:5,
+        max:255,
+    },
     content:{
         type:String,
         required:true,
