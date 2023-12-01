@@ -26,6 +26,11 @@ const MemorySchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
         required:true
+    },
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        required: true
     }
 });
 

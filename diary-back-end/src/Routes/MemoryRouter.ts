@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import MemoryParser from '../Utility/SaxParser';
+import jwt from 'jsonwebtoken';
 
 import Memory from '../Models/MemorySchema';
 
@@ -33,12 +34,18 @@ router.post('/', protect, async (req, res) => {
         const parser = new MemoryParser();
         const parsedMemory = parser.parseXML(req.body.content);
         console.log(parsedMemory);
+        
+        const userToken = req.headers.authorization!.split(' ')[1];
+        const decoded = jwt.verify(userToken, process.env.JWT_SECRET!);
+        const userId = decoded.id;
+
         const memory = await Memory.create({
             title: parsedMemory.title,
             subtitle: parsedMemory.subtitle,
             content: req.body.content,
             tags: [],
             date: parsedMemory.date,
+            ownerId: userId, 
         });
         await memory.save();
         res.status(201).json({ memory: "ok" });
@@ -46,8 +53,6 @@ router.post('/', protect, async (req, res) => {
         res.status(500).json({ error: error });
     }
 });
-
-
 
 export default router;
 
