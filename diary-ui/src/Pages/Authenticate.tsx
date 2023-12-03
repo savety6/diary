@@ -8,11 +8,10 @@ import { NavigationProp } from '@react-navigation/native';
 import SigninForm from '../Components/Authentication/SigninForm';
 import useUpdateEffect from '../Hooks/useUpdateEffect';
 
+import type { Token } from '../Constants/Types'
+
 type Props = {
     navigation: NavigationProp<any>
-}
-type Token = {
-    token: string
 }
 
 const Authenticate = (props: Props) => {

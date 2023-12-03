@@ -5,13 +5,11 @@ import { Button, Card, Text, Modal} from '@ui-kitten/components'
 import TextEditor from './TextEditor'
 import { getTokenFromLocalStorage } from '../../Util'
 
+import type { Token } from '../../Constants/Types'
+
 type Props = {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-type Token = {
-    token: string
 }
 
 const MemoryCreationModal = ({ visible, setVisible }: Props) => {

@@ -11,6 +11,8 @@ const router = Router();
 // GET all memories
 router.get('/', protect, async (req, res) => {
     try {
+        console.log("someone pinged here");
+        
         const memories = await Memory.find();
         res.status(200).json(memories);
     } catch (error) {

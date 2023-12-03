@@ -78,7 +78,6 @@ router.post("/register", async (req, res) => {
 router.get("/verify", async (req, res) => {
     const BearerToken:string | undefined = req.headers.authorization;
     const token:string | undefined = BearerToken?.split(" ")[1];
-    console.log(token);
     if (!token) {
         return res.status(401).json({ error: "Access denied" });
     }
