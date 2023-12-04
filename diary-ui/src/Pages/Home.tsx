@@ -43,9 +43,7 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <TopNav />
-            {
-                token && <MemoryList token={token}/>
-            }
+            <MemoryList token={token} />
             <NewMemory />
         </SafeAreaView>
     );

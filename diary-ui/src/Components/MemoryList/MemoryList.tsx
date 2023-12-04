@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, FlatList, Dimensions } from 'react-native'
-import { Button, Layout, Text, Spinner } from '@ui-kitten/components';
+import { StyleSheet, FlatList, Dimensions, ListRenderItemInfo, Platform } from 'react-native'
+import { Button, Layout, Text, Spinner, Card, Modal } from '@ui-kitten/components';
 
 import type { Token } from '../../Constants/Types'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useUpdateEffect from '../../Hooks/useUpdateEffect';
+import WebView from 'react-native-webview';
 
 type Props = {
     token: Token
@@ -40,28 +41,61 @@ const initialState: LoadingState = {
     state: "loading"
 }
 
-const renderItem = ({ item }) => (
-    <Layout level='2' style={{ width: boxWidth, height: boxWidth, margin: 5 /* ... other styles ... */ }}>
-        <Text>{item.title}</Text>
-        <Text>{item.subTitle}</Text>
-        <Text>{item.date}</Text>
-        <Text>{item.content}</Text>
+const renderItemHeader = (headerProps, info: ListRenderItemInfo<{ title: string }>): React.ReactElement => (
+    <Layout {...headerProps} level='3' >
+        <Text category='h6'>
+            {`${info.item.title}`}
+        </Text>
     </Layout>
 );
+
+const renderItemFooter = (footerProps, info: ListRenderItemInfo<{ date: string }>): React.ReactElement => (
+    <Text {...footerProps}>
+        {`${info.item.date}`}
+    </Text>
+);
+
+const renderItem = (info): React.ReactElement => (
+    <Card
+        style={styles.item}
+        status='basic'
+        header={headerProps => renderItemHeader(headerProps, info)}
+        footer={footerProps => renderItemFooter(footerProps, info)}
+    >
+        <Preview html={info.item.content}></Preview>
+    </Card>
+);
+
+const Preview = ({ html }) => {
+    if (Platform.OS === 'web') {
+        return (
+            <div dangerouslySetInnerHTML={{ __html: html || '' }} />
+        )
+    }
+    else {
+        return (
+            <WebView source={{ html: html }} />
+        )
+    }
+}
 
 const MemoryList = (props: any) => {
     const [token, setToken] = useState<Token>({ token: '' })
     const [count, setCount] = useState<number>(0)
-
+    
+    const [visibleMemory, setVisibleMemory] = useState<boolean>(false);
+    const [selectedMemory, setSelectedMemory] = useState<any>(null)
+    
     const [response, setResponse] = useState<State>(initialState)
 
-    const fetchJoke = async () => {
+
+    const fetchMemory = async () => {
         try {
             setResponse({
                 state: "loading"
             })
             console.log(` token in the fetch${token.token}`);
-            
+
             const response = await fetch('http://localhost:3001/Memory/', {
                 method: 'GET',
                 headers: {
@@ -75,7 +109,7 @@ const MemoryList = (props: any) => {
                 state: "success",
                 data: data
             })
-            
+
 
         } catch (error) {
             console.error(error);
@@ -101,7 +135,7 @@ const MemoryList = (props: any) => {
     }, [count])
 
     useUpdateEffect(() => {
-        fetchJoke()
+        fetchMemory()
     }, [token])
 
 
@@ -110,15 +144,25 @@ const MemoryList = (props: any) => {
             <Text category='h1'>Memory List</Text>
             {response.state == "error" && <Text status='danger'>{response.errorMessage}</Text>}
             <FlatList
+                style={{ maxHeight: 500 }}
+                contentContainerStyle={styles.contentContainer}
                 data={response.state == "success" ? response.data : []}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
                 numColumns={numColumns}
             />
             {response.state == "loading" && <Layout level='5' style={styles.cover}>
                 <Spinner />
             </Layout>}
             <Button onPress={() => setCount(count + 1)}>Load More</Button>
+            <Modal visible={visibleMemory}>
+                <Card disabled={true}>
+                    <Preview html={selectedMemory} /> 
+                    <Button onPress={() => setVisibleMemory(false)}>
+                        DISMISS
+                    </Button>
+                </Card>
+            </Modal>
         </Layout>
     )
 }
@@ -130,6 +174,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    contentContainer: {
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+    },
+    item: {
+        marginVertical: 4,
+        marginHorizontal: 10,
     },
     cover: {
         position: 'absolute',

@@ -7,7 +7,7 @@ const router = Router();
 
 const generateToken = (user) => {
     return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '30m', // Token expiration time
+        expiresIn: '1w', // Token expiration time
     });
 };
 

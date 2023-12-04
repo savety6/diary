@@ -11,9 +11,10 @@ const router = Router();
 // GET all memories
 router.get('/', protect, async (req, res) => {
     try {
-        console.log("someone pinged here");
+        const userToken = req.headers.authorization!.split(' ')[1];
+        const userId = jwt.verify(userToken, process.env.JWT_SECRET!).id;
         
-        const memories = await Memory.find();
+        const memories = await Memory.find({ ownerId: userId });
         res.status(200).json(memories);
     } catch (error) {
         res.status(500).json({ error: error });
